@@ -1,0 +1,59 @@
+%{
+    #include &lt;stdio.h&gt;
+    #include &lt;string.h&gt;
+    #include &lt;math.h&gt;
+    int decimal = 0, i = 0, val, temp;
+    char *hex;
+%}
+hex [A-Fa-f0-9]
+%%
+{hex}+  {
+            hex = yytext;
+            for (i = 0; i &lt; strlen(hex); i++)
+            {
+                    switch(hex[i])
+                    {
+                           case &#39;A&#39;:
+                           case &#39;a&#39;: val = 10; break;
+                           case &#39;B&#39;:
+                           case &#39;b&#39;: val = 11; break;
+                           case &#39;C&#39;:
+                           case &#39;c&#39;: val = 12; break;
+                           case &#39;D&#39;:
+                           case &#39;d&#39;: val = 13; break;
+                           case &#39;E&#39;:
+                           case &#39;e&#39;: val = 14; break;
+                           case &#39;F&#39;:
+                           case &#39;f&#39;: val = 15; break;
+                           case &#39;1&#39;: val = 1; break;
+                           case &#39;2&#39;: val = 2; break;
+                           case &#39;3&#39;: val = 3; break;
+                           case &#39;4&#39;: val = 4; break;
+                           case &#39;5&#39;: val = 5; break;
+                           case &#39;6&#39;: val = 6; break;
+                           case &#39;7&#39;: val = 7; break;
+                           case &#39;8&#39;: val = 8; break;
+                           case &#39;9&#39;: val = 9; break;
+                           case &#39;0&#39;: val = 0; break;
+                    }
+               decimal = decimal + (val * (double)pow(16,
+strlen(hex) - i - 1));
+           }
+           printf(&quot;%d&quot;, decimal);
+           decimal = 0;
+    }
+%%
+int main(int argc, char **argv)
+{
+    yylex();
+    return 0;
+}
+
+
+
+
+Output
+
+lex name.l
+cc lex.yy.c -lfl
+./a.out
