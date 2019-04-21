@@ -1,0 +1,26 @@
+%{
+       int words = 0;
+%}
+regex   A.*
+%%
+{regex}                 { words++; ECHO;}
+.                       { ECHO; }
+%%
+int main(int argc, char **argv)
+{
+       FILE *fp = fopen(argv[1], &quot;r&quot;);
+       yyin = fp;
+       yylex();
+       printf(&quot;\nNumber of words start with A: %d\n&quot;, words);
+       fclose(fp);
+       return 0;
+}
+
+
+
+
+Output
+
+lex name.l
+cc lex.yy.c -lfl
+./a.out
