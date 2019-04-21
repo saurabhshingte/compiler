@@ -1,0 +1,46 @@
+%{
+    #include &lt;stdio.h&gt;
+    int number, rem, pcount = 0, count, i, digit = 0;
+    char hex[20];
+%}
+digit   [0-9]
+%%
+{digit}+     {    number = atoi(yytext);
+                    while (number != 0)
+                    {
+                           rem = number % 16;
+                           digit = &#39;0&#39; + rem;
+                           if (digit &gt; &#39;9&#39;)
+                           {
+                               digit += 7;
+                           }
+
+				
+			hex[count++] = digit;
+
+                           number = number / 16;
+                    }
+                    for (i = count - 1; i &gt;= pcount; --i)
+                    {
+                           printf(&quot;%c&quot;, hex[i]);
+                    }
+                    pcount = count;
+            }
+.|\n         { ECHO; }
+%%
+
+int main()
+{
+    yylex();
+    return 0;
+}
+
+
+
+
+
+Output
+
+lex name.l
+cc lex.yy.c -lfl
+./a.out
