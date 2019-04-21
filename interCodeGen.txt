@@ -1,0 +1,61 @@
+LEX File
+
+ALPHA [A-Za-z]
+DIGIT [0-9]
+%%
+
+{ALPHA}({ALPHA}|{DIGIT})* return ID;
+{DIGIT}+ {yylval=atoi(yytext); return NUM;}
+[\n\t] yyterminate();
+. return yytext[0];
+%%
+
+
+
+
+
+YACC File
+
+%token ID NUM
+%right '='
+%left '+' '-'
+%left '*' '/'
+%left UMINUS
+%%
+
+S : ID{push();} '='{push();} E{codegen_assign();}
+   ;
+E : E '+'{push();} T{codegen();}
+   | E '-'{push();} T{codegen();}
+   | T
+   ;
+T : T '*'{push();} F{codegen();}
+   | T '/'{push();} F{codegen();}
+   | F
+   ;
+F : '(' E ')'
+   | '-'{push();} F{codegen_umin();} %prec UMINUS
+   | ID{push();}
+   | NUM{push();}
+   ;
+%%
+
+#include "lex.yy.c"
+#include<ctype.h>
+char st[100][10];
+int top=0;
+char i_[2]="0";
+char temp[2]="t";
+
+void main()
+ {
+ printf("Enter the expression : ");
+ yyparse();
+ }
+
+void push()
+{
+  strcpy(st[++top],yytext);
+ }
+
+
