@@ -61,3 +61,13 @@ int main()
  {
   return yyparse();
  }
+
+
+
+
+Output
+
+lex p1.l
+yacc p1.y
+gcc y.tab.c -ll -ly
+./a.out
