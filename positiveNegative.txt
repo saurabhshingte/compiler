@@ -1,0 +1,35 @@
+%{
+       int positives = 0;
+       int negatives = 0;
+       int positiveFractions = 0;
+       int negativeFractions = 0;
+%}
+%%
+[0-9]+                  { positives++; ECHO; }
+-[0-9]+                 { negatives++; ECHO; }
+\+?[0-9]*\.[0-9]+       { positiveFractions++; ECHO; }
+-[0-9]*\.[0-9]+         { negativeFractions++; ECHO; }
+.                       ;
+%%
+int main(int argc, char **argv)
+{
+       FILE *fp = fopen(argv[1], &quot;r&quot;);
+       yyin = fp;
+       yylex();
+       printf(&quot;Number of Positives: %d\n&quot;, positives);
+       printf(&quot;Number of Negatives: %d\n&quot;, negatives);
+       printf(&quot;Number of Positive Fractions: %d\n&quot;,
+positiveFractions);
+       printf(&quot;Number of Negative Fractions: %d\n&quot;,
+negativeFractions);
+       return 0;
+}
+
+
+
+
+Output
+
+lex name.l
+cc lex.yy.c -lfl
+./a.out
