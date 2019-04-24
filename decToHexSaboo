@@ -1,0 +1,42 @@
+%{
+#include<string.h>
+#include<stdlib.h>
+
+void stringToDecToHex(char* c){
+char* cherry = malloc(yyleng );
+strncpy(cherry, c, yyleng);
+int a = atoi(cherry);
+printf("\ndec to hex: 0x%x\n", a);
+}
+
+void stringToHextoDec(char* c){
+char* cherry = malloc(yyleng );
+strncpy(cherry, c, yyleng);
+int a = strtol(cherry, NULL, 16);
+printf("\nhex to dec: %d\n", a);
+}
+
+
+%}
+
+hexnum 0[xX][0-9A-F]+?[\n]
+decnum [1-9][0-9]*?[\n]
+eol \n
+
+%%
+{eol} {return 1;}
+
+{decnum} { stringToDecToHex(yytext);}
+{hexnum} { stringToHextoDec(yytext);}
+
+
+%%
+int main(){
+yylex();
+}
+
+int yywrap(){
+return 1;
+}
+
+
