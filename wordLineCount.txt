@@ -11,32 +11,43 @@ int singleLineComment = 0;
 int commentCount = 0;
 %}
 %%
+
 "/*" {if(!singleLineComment){commentFlag = 1;}}
+
 "*/" {if(commentFlag){commentFlag = 0; commentCount++;}}
+
 "//" {if(!commentFlag && !singleLineComment){commentCount++;}
 singleLineComment = 1;}
+
 int|char|double|float|long|struct|const|typedef|return|do|while|for|if|else|break|
 continue|goto|void|switch|case {keywords++;}
+
 [a-zA-Z][a-zA-Z0-9]* {identifiers++; chars +=strlen(yytext);}
+
 [0-9]+[a-zA-Z0-9]* { nonIdentifiers++; chars += strlen(yytext);}
+
 [\t]+ { chars++; spaces++;}
+
 [\n] { chars++; lines++; if(singleLineComment){singleLineComment = 0;}}
+
 . {chars++;}
+
 %%
+
 int main(int argc, char **argv)
 {
-FILE *fp = fopen(argv[1], "r");
-yyin = fp;
-yylex();
-printf("\tAssignment 2\n");
-printf("A program to read tokens of a C program\n");
-printf("Lines: %8d\n", lines);
-printf("Characters: %8d\n", chars);
-printf("Keywords: %8d\n", keywords);
-printf("Identifiers: %8d\n", identifiers);
-printf("Words: %8d\n", (identifiers+nonIdentifiers));
-printf("Comments: %8d\n",commentCount);
-return 0;
+  FILE *fp = fopen(argv[1], "r");
+  yyin = fp;
+  yylex();
+  printf("\tAssignment 2\n");
+  printf("A program to read tokens of a C program\n");
+  printf("Lines: %8d\n", lines);
+  printf("Characters: %8d\n", chars);
+  printf("Keywords: %8d\n", keywords);
+  printf("Identifiers: %8d\n", identifiers);
+  printf("Words: %8d\n", (identifiers+nonIdentifiers));
+  printf("Comments: %8d\n",commentCount);
+  return 0;
 }
 
 
@@ -47,7 +58,4 @@ Output
 lex name.l
 cc lex.yy.c -lfl
 ./a.out
-
-
-
 
