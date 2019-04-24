@@ -1,19 +1,21 @@
 %{
-       int words = 0;
+int words = 0;
 %}
-regex   A.*
+regex A.*
 %%
-{regex}                 { words++; ECHO;}
-.                       { ECHO; }
+
+{regex} { words++; ECHO;}
+. { ECHO; }
 %%
+
 int main(int argc, char **argv)
 {
-       FILE *fp = fopen(argv[1], 'r');
-       yyin = fp;
-       yylex();
-       printf("\nNumber of words start with A: %d\n", words);
-       fclose(fp);
-       return 0;
+  FILE *fp = fopen(argv[1], "r");
+  yyin = fp;
+  yylex();
+  printf("\nNumber of words start with A: %d\n", words);
+  fclose(fp);
+  return 0;
 }
 
 
