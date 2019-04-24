@@ -1,38 +1,38 @@
 %{
-    #include &lt;stdio.h&gt;
-    int number, rem, pcount = 0, count, i, digit = 0;
-    char hex[20];
+Â Â Â  #include <stdio.h>;
+Â Â Â  int number, rem, pcount = 0, count, i, digit = 0;
+Â Â Â  char hex[20];
 %}
-digit   [0-9]
+digit Â Â [0-9]
 %%
-{digit}+     {    number = atoi(yytext);
-                    while (number != 0)
-                    {
-                           rem = number % 16;
-                           digit = &#39;0&#39; + rem;
-                           if (digit &gt; &#39;9&#39;)
-                           {
-                               digit += 7;
-                           }
+{digit}+ Â Â Â  { Â Â  number = atoi(yytext);
+Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â  while (number != 0)
+Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â  {
+Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â rem = number % 16;
+Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â digit = '0' + rem;
+Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â if (digit > '9')
+Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â {
+Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â  digit += 7;
+Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â }
 
 				
 			hex[count++] = digit;
 
-                           number = number / 16;
-                    }
-                    for (i = count - 1; i &gt;= pcount; --i)
-                    {
-                           printf(&quot;%c&quot;, hex[i]);
-                    }
-                    pcount = count;
-            }
-.|\n         { ECHO; }
+Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â number = number / 16;
+Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â  }
+Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â  for (i = count - 1; i >= pcount; --i)
+Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â  {
+Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â printf("%c", hex[i]);
+Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â  }
+Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â  pcount = count;
+Â Â Â Â Â Â Â Â Â Â Â  }
+.|\n Â Â Â Â Â Â Â  { ECHO; }
 %%
 
 int main()
 {
-    yylex();
-    return 0;
+Â Â Â  yylex();
+Â Â Â  return 0;
 }
 
 
